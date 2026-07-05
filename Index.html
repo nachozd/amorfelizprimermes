@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>¿Quieres ser?</title>
+    <style>
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #ffffff;
+        font-family: sans-serif;
+        overflow-x: hidden;
+    }
+
+    .container {
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+        padding: 20px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .buttons-wrapper {
+        display: flex;
+        flex-direction: column; /* Apilados para que el botón "Sí" gigante domine el espacio */
+        gap: 15px;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    img, #gifContainerImg {
+        max-width: 85%;
+        height: auto !important;
+        max-height: 200px; /* Reducido un poco para dar espacio al botón gigante */
+        object-fit: contain;
+        margin: 0 auto;
+        display: block;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin: 20px 0;
+        padding: 0 10px;
+    }
+
+    button {
+        padding: 12px 24px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 10px;
+        border: 2px solid #FFC0CB;
+        box-sizing: border-box;
+        max-width: 95vw; /* Evita que rompa los lados de la pantalla del celular */
+        word-wrap: break-word;
+        transition: all 0.15s ease-in-out;
+    }
+    
+    #siBtn {
+        background-color: #009705;
+        color: white;
+        z-index: 10; /* Se asegura de estar por encima si se superpone */
+    }
+
+    #noBtn {
+        background-color: #FF5733;
+        color: white;
+        font-size: 14px; /* Se achica un poco el texto del "No" para contrastar */
+    }
+
+    #siBtn:hover { background-color: #053a03; }
+    #noBtn:hover { background-color: #641e0d; }
+
+    #messageContainer {
+        font-size: 26px;
+        color: #FF0000;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        animation: pulse 0.5s infinite alternate;
+        padding: 10px;
+    }
+
+    @keyframes pulse {
+        from { transform: scale(1); }
+        to { transform: scale(1.1); }
+    }
+    
+    #gifContainerFinal { 
+        text-align: center; 
+        width: 100%;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div id="gifContainer">
+            <img id="gifContainerImg" src="https://i.pinimg.com/736x/41/6a/5b/416a5b3da450b017fe80f6301bfc4e2a.jpg" alt="Imagen Inicial" >
+        </div>
+        <div id="happyGifContainer" style="display: none;">
+            <img src="https://github.com/Ronald1234-2/musica/blob/main/mocha5final.gif?raw=true" alt="Ositos Felices">
+        </div>
+        <div id="happyGifContainer2" style="display: none;">
+            <img src="https://github.com/Ronald1234-2/musica/blob/main/mocha6final.gif?raw=true" alt="Ositos Felices">
+        </div>
+        <div id="happyGifContainer3" style="display: none;">
+            <img src="https://github.com/Ronald1234-2/musica/blob/main/mocha7final.gif?raw=true" alt="Ositos Felices">
+        </div>
+        <div id="happyGifContainer4" style="display: none;">
+            <img src="https://github.com/Ronald1234-2/musica/blob/main/mocha9final.gif?raw=true" alt="Ositos Felices">
+        </div>
+        <div id="sadGifContainer" style="display: none;">
+            <img src="https://github.com/Ronald1234-2/musica/blob/main/mocha2.gif?raw=true" alt="Osito Triste">
+        </div>
+        <div id="sadGifContainer1" style="display: none;">
+            <img src="https://github.com/Ronald1234-2/musica/blob/main/mocha3.gif?raw=true" alt="Osito Triste">
+        </div>
+        <div id="sadGifContainer2" style="display: none;">
+            <img src="https://github.com/Ronald1234-2/musica/blob/main/mocha4.gif?raw=true" alt="Osito Triste">
+        </div>
+        
+        <h1 id="question">¿Queres seguir siendo mi novia?</h1>
+        <div id="messageContainer" style="display: none;"></div>
+
+        <div class="buttons-wrapper" id="mainButtons">
+            <button id="siBtn">Sí</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+    let noButtonClickCount = 0; 
+    let noButtonState = 0; 
+
+    document.getElementById('gifContainer').style.display = 'block';
+
+    document.getElementById('siBtn').addEventListener('click', function() {
+        document.getElementById('sadGifContainer').style.display = 'none';
+        document.getElementById('sadGifContainer1').style.display = 'none';
+        document.getElementById('sadGifContainer2').style.display = 'none';
+        document.getElementById('gifContainer').style.display = 'none';
+        document.getElementById('happyGifContainer').style.display = 'none';
+        document.getElementById('happyGifContainer2').style.display = 'none';
+        document.getElementById('happyGifContainer3').style.display = 'none';
+        document.getElementById('happyGifContainer4').style.display = 'none';
+        
+        const customIds = ['customSadImg', 'customSadImg2', 'customSadImg3', 'customSadImg4', 'customSadImg5', 'customSadImg6'];
+        customIds.forEach(id => {
+            let img = document.getElementById(id);
+            if (img) img.style.display = 'none';
+        });
+
+        document.getElementById('question').style.display = 'none';
+        document.getElementById('mainButtons').style.display = 'none';
+
+        document.getElementById('messageContainer').style.display = 'block';
+        document.getElementById('messageContainer').innerHTML = '¡Sabía que aceptarías, Que viva los novios!';
+
+        let gifContainerFinal = document.createElement('div');
+        gifContainerFinal.id = 'gifContainerFinal';
+        gifContainerFinal.style.marginTop = '20px';
+        gifContainerFinal.style.display = 'flex';
+        gifContainerFinal.style.flexDirection = 'column';
+        gifContainerFinal.style.alignItems = 'center';
+        gifContainerFinal.style.gap = '20px';
+
+        let gif = document.createElement('img');
+        gif.src = 'https://i.pinimg.com/originals/88/14/9b/88149b0400750578f4d07d9bc3fb0fee.gif';
+        gif.alt = 'Celebración';
+
+        gifContainerFinal.appendChild(gif);
+
+        let continuarBtn = document.createElement('button');
+        continuarBtn.innerHTML = 'Continuar';
+        continuarBtn.style.padding = '12px 28px';
+        continuarBtn.style.fontSize = '18px';
+        continuarBtn.style.backgroundColor = '#009705';
+        continuarBtn.style.color = 'white';
+        continuarBtn.style.cursor = 'pointer';
+
+        continuarBtn.onclick = function () {
+            window.location.href = 'amor.html';
+        };
+
+        gifContainerFinal.appendChild(continuarBtn);
+        document.querySelector('.container').appendChild(gifContainerFinal);
+    });
+
+    function setupSadImage(id, src) {
+        let img = document.getElementById(id);
+        if (!img) {
+            img = document.createElement('img');
+            img.id = id;
+            img.src = src;
+            img.alt = 'Triste personalizado';
+            document.querySelector('.container').insertBefore(img, document.getElementById('happyGifContainer'));
+        } else {
+            img.style.display = 'block';
+        }
+    }
+
+    document.getElementById('noBtn').addEventListener('click', function() {
+        let siBtn = document.getElementById('siBtn');
+        switch (noButtonState) {
+            case 0:
+                document.getElementById('happyGifContainer').style.display = 'none';
+                document.getElementById('gifContainer').style.display = 'none';
+                setupSadImage('customSadImg', 'https://i.pinimg.com/736x/aa/b9/01/aab9012fecab26a1e74942e638ea3746.jpg');
+                document.getElementById('sadGifContainer').style.display = 'none';
+                document.getElementById('noBtn').innerHTML = '¿Segura que no queres ser mi novia?';
+                siBtn.style.fontSize = '28px';
+                siBtn.style.padding = '15px 35px';
+                noButtonClickCount++;
+                noButtonState++;
+                break;
+            case 1:
+                document.getElementById('noBtn').innerHTML = 'dale, deci que sí ,no seas mala 😔';
+                if (document.getElementById('customSadImg')) document.getElementById('customSadImg').style.display = 'none';
+                setupSadImage('customSadImg2', 'https://i.pinimg.com/736x/f0/db/89/f0db89944ed03e4328337c5f9d42a3a3.jpg');
+                siBtn.style.fontSize = '36px';
+                siBtn.style.padding = '20px 50px';
+                noButtonState++;
+                break;
+            case 2:
+                document.getElementById('noBtn').innerHTML = 'xfa amor 😭😭😭';
+                if (document.getElementById('customSadImg2')) document.getElementById('customSadImg2').style.display = 'none';
+                setupSadImage('customSadImg3', 'https://i.pinimg.com/736x/a2/21/0c/a2210c96613f918ec43f2ebbe4996d79.jpg');
+                siBtn.style.fontSize = '46px';
+                siBtn.style.padding = '25px 60px';
+                noButtonState++;
+                break;
+            case 3:
+                document.getElementById('noBtn').innerHTML = 'te cocino lo que quieras 🥺🥺';
+                if (document.getElementById('customSadImg3')) document.getElementById('customSadImg3').style.display = 'none';
+                setupSadImage('customSadImg4', 'https://i.pinimg.com/736x/fb/60/1e/fb601ee330dfb714d85e5c2b8ff3107c.jpg');
+                siBtn.style.fontSize = '56px';
+                siBtn.style.padding = '30px 70px';
+                noButtonState++;
+                break;
+            case 4:
+                document.getElementById('noBtn').innerHTML = 'Estare en las buenas y en las malas';
+                if (document.getElementById('customSadImg4')) document.getElementById('customSadImg4').style.display = 'none';
+                setupSadImage('customSadImg5', 'https://i.pinimg.com/736x/52/56/14/52561495c9fa4914761e617981086ca3.jpg');
+                siBtn.style.fontSize = '68px';
+                siBtn.style.padding = '35px 80px';
+                noButtonState++;
+                break;
+            case 5:
+                document.getElementById('noBtn').innerHTML = 'si decis q no no puedo ser ti bebe titito 🥺💔';
+                if (document.getElementById('customSadImg5')) document.getElementById('customSadImg5').style.display = 'none';
+                setupSadImage('customSadImg6', 'https://i.pinimg.com/1200x/7c/6f/50/7c6f50c76b98a9d8c539d603dbfbedf2.jpg');
+                siBtn.style.fontSize = '80px';
+                siBtn.style.padding = '40px 90px';
+                noButtonState++;
+                break;
+                
+            /* EMPIEZA EL AGRANDADO EXAGERADO */
+            case 6:
+                document.getElementById('noBtn').innerHTML = 'dale decime si';
+                siBtn.style.fontSize = '100px';
+                siBtn.style.padding = '60px 110px';
+                noButtonState++;
+                break;
+            case 7:
+                document.getElementById('noBtn').innerHTML = 'aa que dificil, pero me gustas asi 😍😍😍';
+                siBtn.style.fontSize = '120px';
+                siBtn.style.padding = '80px 130px';
+                noButtonState++;
+                break;
+            case 8:
+                document.getElementById('noBtn').innerHTML = 'Naa, mentira solo quiero que digas que sí.';
+                siBtn.style.fontSize = '140px';
+                siBtn.style.padding = '90px 150px';
+                noButtonState++;
+                break;
+            case 9:
+                document.getElementById('noBtn').innerHTML = 'Entiendo, es tu decisión 💔';
+                siBtn.style.fontSize = '160px';
+                siBtn.style.padding = '100px 170px';
+                noButtonState++;
+                break;
+            case 10:
+                document.getElementById('noBtn').innerHTML = 'Pero seremos bonita pareja';
+                siBtn.style.fontSize = '180px';
+                siBtn.style.padding = '110px 190px';
+                noButtonState++;
+                break;
+            case 11:
+                document.getElementById('noBtn').innerHTML = 'Seremos la envidia de todos';
+                siBtn.style.fontSize = '200px';
+                siBtn.style.padding = '120px 210px';
+                noButtonState++;
+                break;
+            case 12:
+                document.getElementById('noBtn').innerHTML = 'Te querre toda la vida';
+                siBtn.style.fontSize = '220px';
+                siBtn.style.padding = '130px 230px';
+                noButtonState++;
+                break;
+            case 13:
+                document.getElementById('noBtn').innerHTML = 'Solo dale a si';
+                siBtn.style.fontSize = '240px';
+                siBtn.style.padding = '140px 250px';
+                noButtonState++;
+                break;
+            case 14:
+                document.getElementById('noBtn').innerHTML = '¿De verdad no queres ser mi macha?';
+                siBtn.style.fontSize = '270px';
+                siBtn.style.padding = '150px 270px';
+                noButtonState++;
+                break;
+            case 15:
+                document.getElementById('noBtn').innerHTML = 'No va a parar hasta que digas que si...';
+                siBtn.style.fontSize = '320px'; /* Súper gigante ocupando casi todo el alto */
+                siBtn.style.padding = '180px 300px';
+                noButtonState++;
+                break;
+            case 16:
+                document.getElementById('noBtn').innerHTML = 'Última oportunidad...Si me decis q si soy tu perrita. 🐶';
+                document.getElementById('gifContainer').style.display = 'block';
+                if (document.getElementById('customSadImg6')) document.getElementById('customSadImg6').style.display = 'none';
+
+                // Reset completo al tamaño original
+                siBtn.style.fontSize = '16px';
+                siBtn.style.padding = '12px 24px';
+                noButtonState = 0;
+                break;
+            default:
+                break;
+        }
+    });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

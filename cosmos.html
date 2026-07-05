@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nuestro Cosmos</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@200;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    background: #04050e;
+    color:#fff;
+    font-family: 'Montserrat', sans-serif;
+    overflow:hidden;
+    perspective: 1000px;
+}
+
+/* Fondo Romántico Estrellado */
+.sky-bg {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, #0d0f22 0%, #030308 100%);
+    z-index: -3;
+}
+.stars{
+    width:100%;
+    height:100%;
+    background:transparent url("https://www.transparenttextures.com/patterns/stardust.png") repeat;
+    position:fixed;
+    top:0;left:0;
+    z-index:-2;
+    opacity: 0.35;
+}
+
+/* Lluvia de Estrellas de Alta Visibilidad */
+.shooting-stars {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+.star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 12px 2px #ffffff, 0 0 20px #7da2ff;
+    opacity: 0;
+    animation: meteor linear infinite;
+}
+/* La estela larga y brillante de la estrella */
+.star::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--tail-length, 120px);
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(125,162,255,0.4) 40%, transparent 100%);
+    transform-origin: left center;
+}
+
+@keyframes meteor {
+    0% {
+        transform: translate(0, 0) rotate(-40deg) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+        transform: translate(-100px, 84px) rotate(-40deg) scale(1);
+    }
+    60% {
+        transform: translate(-600px, 504px) rotate(-40deg) scale(1);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-100px, 84px) rotate(-40deg) scale(0);
+        opacity: 0;
+    }
+}
+
+#wrap{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+#stage{
+    width:100%;
+    height:60vh;
+    position:relative;
+    overflow:hidden;
+}
+
+/* Diapositivas principales con pulso cósmico viviente */
+.slide{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    transition: all .65s cubic-bezier(0.25, 1, 0.5, 1);
+    cursor:pointer;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 6px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.slide img{
+    display: block;
+    object-fit: cover;
+    width:440px;
+    height:290px;
+    border-radius: 4px;
+    opacity: 0.5;
+    transition: all .65s ease;
+    animation: cosmic-pulse 8s infinite ease-in-out;
+}
+
+@keyframes cosmic-pulse {
+    0%, 100% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.02); filter: brightness(1.15); }
+}
+
+.left{ left:14vw; transform:translateY(-50%) scale(.85); }
+.right{ right:14vw; transform:translateY(-50%) scale(.85); }
+
+/* Foto Central en la Galería */
+.center{
+    left:50%;
+    transform:translate(-50%,-50%) scale(1.05);
+    z-index:5;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+}
+.center img {
+    opacity: 1;
+}
+
+/* Controles de navegación */
+.nav-btn {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    background: transparent; border: none;
+    color: rgba(255,255,255,0.3);
+    font-size: 24px;
+    width: 60px; height: 60px;
+    cursor: pointer; z-index: 10;
+    transition: color 0.3s;
+}
+.nav-btn:hover { color: #fff; }
+#prevBtn { left: 5vw; }
+#nextBtn { right: 5vw; }
+
+#label{ margin-top:25px; text-align:center; z-index: 5; }
+#date{ color:#b3c5ff; letter-spacing: 5px; font-weight: 500; font-size: 14px; }
+#title{ font-family: 'Cormorant Garamond', serif; font-size:30px; margin-top:4px; font-style: italic;}
+
+/* Modal Corregido (Sin bordes negros vacíos) */
+#modal{display:none;position:fixed;inset:0;background:rgba(3,3,8,0.94);justify-content:center;align-items:center;padding:30px;z-index:1000; backdrop-filter: blur(10px);}
+#box{
+    background: #0a0b13; 
+    max-width: 800px; 
+    width:100%; 
+    border-radius: 12px; 
+    overflow:hidden; 
+    border: 1px solid rgba(255,255,255,0.12); 
+    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Contenedor de la foto con máscara de fusión */
+.img-container {
+    width: 100%;
+    height: 380px;
+    overflow: hidden;
+    position: relative;
+    background: #000;
+}
+#box img{
+    width:100%; 
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+#box div{
+    padding: 26px 32px; 
+    background: #0b0c16;
+}
+#box h2{font-family: 'Cormorant Garamond', serif; font-size:26px; font-style: italic; color: #b3c5ff; margin-bottom:10px;}
+#box p{font-weight: 300; line-height:1.7; color: #cbd5e1; font-size: 15px;}
+#close{position:absolute; top:20px; right:25px; font-size:36px; cursor:pointer; color:rgba(255,255,255,0.5); transition: .3s;}
+#close:hover { color: #fff; }
+
+/* Bienvenida con suavidad */
+#start{position:fixed;inset:0;background:#04050e;display:flex;align-items:center;justify-content:center;z-index:9999;}
+#startBox{max-width:420px; text-align:center; padding:20px;}
+#startBox h2{font-family: 'Cormorant Garamond', serif; font-size: 34px; font-style: italic; margin-bottom: 12px; animation: fadeInUp 1s ease;}
+#startBox p { color: #94a3b8; font-size: 15px; line-height: 1.6; margin-bottom: 24px; font-weight: 200;}
+#go{
+    padding:10px 30px; border: 1px solid rgba(255,255,255,0.3); background: transparent;
+    color: #fff; font-family: 'Montserrat', sans-serif; font-size: 12px; letter-spacing: 2px;
+    cursor:pointer; border-radius: 4px; transition: all 0.3s;
+    animation: pulseGlow 2s infinite;
+}
+#go:hover { background: #fff; color: #000; box-shadow: 0 0 15px #fff; }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+@media(max-width:768px){
+    .slide img{width:80vw; height:auto; max-height:45vh}
+    .left,.right,.nav-btn{display:none}
+    .img-container { height: 240px; }
+}
+</style>
+</head>
+<body>
+
+<div class="sky-bg"></div>
+<div class="stars"></div>
+
+<div class="shooting-stars" id="starShower"></div>
+
+<div id="start">
+  <div id="startBox">
+    <h2>Feliz Primer Mes...</h2>
+    <p>Un espacio dedicado a fechas que yo considero que han sido importantes y fotos del universo en esos momentos.</p>
+    <button id="go" onclick="document.getElementById('start').style.display='none'">ENTRAR</button>
+  </div>
+</div>
+
+<div id="wrap">
+  <button class="nav-btn" id="prevBtn" onclick="moverGaleria(-1)">&#10229;</button>
+  <div id="stage"></div>
+  <button class="nav-btn" id="nextBtn" onclick="moverGaleria(1)">&#10230;</button>
+  
+  <div id="label">
+    <div id="date"></div>
+    <div id="title"></div>
+  </div>
+</div>
+
+<div id="modal">
+  <div id="close" onclick="closeM()">&times;</div>
+  <div id="box">
+    <div class="img-container">
+        <img id="mimg" alt="Registro">
+    </div>
+    <div>
+        <h2 id="mt"></h2>
+        <p id="mp"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+const items=[
+{d:"04 ENE",t:"Cruz de Einstein",i:"./8.jpg",p:"Una galaxia en primer plano actúa como lente gravitacional, dividiendo la luz de un cuásar distante en cuatro imágenes perfectas en el firmamento. Esa luz que necesitó que galaxias enteras se acomodaran en el espacio y el tiempo ,es decir que hizo falta que se alinearan los planetas para conocernos"},
+{d:"09 MAY",t:"Cráteres Messier",i:"./9.jpg",p:"Los cráteres Messier y Messier A en la Luna se formaron por un impacto y el choque dejó una firma simétrica y única para la eternidad, dejando una marca imborrable en la superficie lunar."},
+{d:"07 JUN",t:"Júpiter y Venus",i:"https://apod.nasa.gov/apod/image/2606/JupiterPersonVenus_Nikodem_960.jpg",p:"Conjunción visible desde gran parte del mundo donde Júpiter y Venus aparecieron muy cercanos en el cielo. Dos de los objetos más brillantes del cielo nocturno compartiendo un mismo espacio físico en perfecta armonía visual."}
+];
+
+let c=0;
+const stage=document.getElementById("stage");
+const date=document.getElementById("date");
+const title=document.getElementById("title");
+const modal=document.getElementById("modal");
+const mimg=document.getElementById("mimg");
+const mt=document.getElementById("mt");
+const mp=document.getElementById("mp");
+
+function draw(){
+  stage.innerHTML="";
+  const izquierda=(c-1+items.length)%items.length;
+  const derecha=(c+1)%items.length;
+  
+  [[izquierda,"left"],[c,"center"],[derecha,"right"]].forEach(([indice,clase]) => {
+    const div=document.createElement("div");
+    div.className="slide "+clase;
+    div.innerHTML=`<img src="${items[indice].i}" alt="${items[indice].t}">`;
+    
+    if(clase === "center") {
+        div.onclick=()=>{openM(items[c]);}
+    } else {
+        div.onclick=()=>{moverGaleria(clase==="left" ? -1 : 1);}
+    }
+    stage.appendChild(div);
+  });
+  date.textContent=items[c].d;
+  title.textContent=items[c].t;
+}
+
+function moverGaleria(dir) {
+    c = (c + dir + items.length) % items.length;
+    draw();
+}
+
+draw();
+
+function openM(it){mimg.src=it.i;mt.textContent=it.d+" — "+it.t;mp.textContent=it.p;modal.style.display='flex';}
+function closeM(){closeM_action();}
+function closeM_action(){modal.style.display='none';}
+
+modal.onclick=e=>{if(e.target===modal || e.target===document.getElementById("close") || e.target===document.querySelector('.img-container')) closeM_action();}
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowLeft") moverGaleria(-1);
+  if(e.key==="ArrowRight") moverGaleria(1);
+  if(e.key==="Escape") closeM_action();
+});
+
+let touchStartX = 0;
+stage.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+stage.addEventListener('touchend', e => {
+    let touchEndX = e.changedTouches[0].screenX;
+    if (touchStartX - touchEndX > 60) moverGaleria(1);
+    if (touchEndX - touchStartX > 60) moverGaleria(-1);
+}, {passive: true});
+
+// Motor de la Lluvia de Estrellas Intensa y Visible
+function initStarShower() {
+    const container = document.getElementById('starShower');
+    const starCount = 25; // Cantidad simultánea en pantalla
+
+    for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        
+        // Distribución en la zona superior y derecha de la pantalla
+        star.style.left = `${Math.random() * 120 - 20}%`; 
+        star.style.top = `${Math.random() * -40}%`;
+        
+        // Tiempos aleatorios para romper la simetría
+        const speed = 2 + Math.random() * 3; // Velocidad rápida e impactante (2s a 5s)
+        const delay = Math.random() * 6;
+        star.style.animationDuration = `${speed}s`;
+        star.style.animationDelay = `${delay}s`;
+
+        // Tamaño del núcleo del meteoro
+        const size = 2 + Math.random() * 2;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+
+        // Longitudes de estela dinámicas y bien marcadas
+        const tailLength = 100 + Math.random() * 140;
+        star.style.setProperty('--tail-length', `${tailLength}px`);
+
+        container.appendChild(star);
+    }
+}
+
+initStarShower();
+</script>
+</body>
+</html>
